@@ -23,7 +23,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        class="me.yifeiyuan.hf.fragment.BlankFragment"
-        />
+        android:name="me.yifeiyuan.hf.fragment.BlankFragment"
+        android:id="@+id/TODO" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
