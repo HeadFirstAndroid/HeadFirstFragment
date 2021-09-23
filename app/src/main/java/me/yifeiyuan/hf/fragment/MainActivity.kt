@@ -14,14 +14,15 @@ class MainActivity : AdhShowcaseActivity() {
             },
 
             createShowcaseItem("自定义布局") {
-                HFCustomViewDialogFragment().show(supportFragmentManager, "dialogfragment")
+                HFCustomViewDialogFragment().show(supportFragmentManager, "自定义布局")
             },
 
             createShowcaseItem("自定义宽高的 Dialog") {
-                HFCustomWidthHeightDialogFragment().show(supportFragmentManager, "dialogfragment")
+                HFCustomWidthHeightDialogFragment().show(supportFragmentManager, "自定义宽高的")
             },
-            createShowcaseItem("ItemListDialogFragment") {
-                ItemListDialogFragment.newInstance(30).show(supportFragmentManager, "dialog")
+            createShowcaseItem("ItemListDialogFragment (高度不对)") {
+                ItemListDialogFragment.newInstance(30)
+                    .show(supportFragmentManager, "ItemListDialogFragment")
             }
         )
     }
