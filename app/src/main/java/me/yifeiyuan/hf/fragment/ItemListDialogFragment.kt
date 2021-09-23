@@ -1,5 +1,6 @@
 package me.yifeiyuan.hf.fragment
 
+import android.app.Dialog
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.TextView
 
 // TODO: Customize parameter argument names
@@ -20,6 +22,8 @@ const val ARG_ITEM_COUNT = "item_count"
  * <pre>
  *    ItemListDialogFragment.newInstance(30).show(supportFragmentManager, "dialog")
  * </pre>
+ *
+ * 这系统生成的不行啊 - - 高度不对
  */
 class ItemListDialogFragment : BottomSheetDialogFragment() {
 
@@ -47,7 +51,6 @@ class ItemListDialogFragment : BottomSheetDialogFragment() {
             false
         )
     ) {
-
         internal val text: TextView = itemView.findViewById(R.id.text)
     }
 
