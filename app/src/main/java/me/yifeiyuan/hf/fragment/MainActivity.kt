@@ -1,11 +1,23 @@
 package me.yifeiyuan.hf.fragment
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import android.view.View
+import me.yifeiyuan.adh.showcase.AdhShowcaseActivity
+import me.yifeiyuan.adh.showcase.AdhShowcaseItem
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : AdhShowcaseActivity() {
+
+    override fun provideShowcaseItems(): List<AdhShowcaseItem> {
+        return mutableListOf(
+
+            createShowcaseItem("Dialog 样式的 DialogFragment") {
+                HFDefaultDialogFragment().show(supportFragmentManager, "dialogfragment")
+            },
+
+            createShowcaseItem("自定义布局") {
+                HFCustomViewDialogFragment().show(supportFragmentManager, "dialogfragment")
+            }
+        )
     }
+
+    fun showDialogFragment(view: View) {}
 }
