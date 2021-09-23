@@ -13,4 +13,12 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+
+        <!--    Theme.AppCompat.Light.Dialog -->
+    <style name="HFDialog" parent="Theme.Design.Light.BottomSheetDialog">
+<!--    <style name="HFDialog" parent="Theme.AppCompat.Light.Dialog">-->
+        <item name="android:backgroundDimAmount">0.2</item>
+    </style>
+
 </resources>

@@ -16,6 +16,11 @@ class MainActivity : AdhShowcaseActivity() {
             createShowcaseItem("自定义布局") {
                 HFCustomViewDialogFragment().show(supportFragmentManager, "dialogfragment")
             }
+            ,
+
+            createShowcaseItem("自定义宽高的 Dialog") {
+                HFCustomWidthHeightDialogFragment().show(supportFragmentManager, "dialogfragment")
+            }
         )
     }
 
