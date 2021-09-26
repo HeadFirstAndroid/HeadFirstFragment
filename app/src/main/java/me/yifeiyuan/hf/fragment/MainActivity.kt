@@ -1,5 +1,6 @@
 package me.yifeiyuan.hf.fragment
 
+import android.os.Bundle
 import android.view.View
 import me.yifeiyuan.adh.showcase.AdhShowcaseActivity
 import me.yifeiyuan.adh.showcase.AdhShowcaseItem
@@ -10,7 +11,14 @@ class MainActivity : AdhShowcaseActivity() {
         return mutableListOf(
 
             createShowcaseItem("Dialog 样式的 DialogFragment") {
-                HFDefaultDialogFragment().show(supportFragmentManager, "dialogfragment")
+
+                val dialog = HFDefaultDialogFragment()
+                dialog.arguments = Bundle().apply {
+                    putString("key","string")
+                    putInt("intKey",0)
+                }
+
+                dialog.show(supportFragmentManager, "HFDefaultDialogFragment")
             },
 
             createShowcaseItem("自定义布局") {

@@ -23,7 +23,7 @@ import androidx.fragment.app.DialogFragment
 class HFDefaultDialogFragment : DialogFragment() {
 
     companion object {
-        private const val TAG = "HFDialogFragment"
+        private const val TAG = "HFDefaultDialogFragment"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +71,7 @@ class HFDefaultDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         Log.d(TAG, "onCreateDialog() called with: savedInstanceState = $savedInstanceState")
+        Log.d(TAG, "onCreateDialog() $arguments")
         val dialog =  AlertDialog.Builder(requireContext())
             .setMessage("自定义 Message")
             .setTitle("自定义 Title")
