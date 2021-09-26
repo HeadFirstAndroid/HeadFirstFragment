@@ -4,27 +4,25 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.versionedparcelable.ParcelField
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import java.io.Serializable
 
 /**
  *
- * 默认的使用方式，类似一个 Dialog
+ * 尝试 Callback 沟通
+ *
+ * 当页面恢复的时候 callback 会为 null ===> 此路不通
+ *
  * Created by 程序亦非猿 on 2021/9/23.
  */
-class HFDefaultDialogFragment : DialogFragment() {
+class HFCallbackDialogFragment : DialogFragment() {
 
     companion object {
         private const val TAG = "HFDefaultDialogFragment"
@@ -32,8 +30,8 @@ class HFDefaultDialogFragment : DialogFragment() {
         fun create(
             intValue: Int,
             stringValue: String,
-            cb: Callback
-        ): HFDefaultDialogFragment {
+            cb: Callback?=null
+        ): HFCallbackDialogFragment {
 
             val bundle = Bundle().apply {
                 putString("stringKey", stringValue)
@@ -42,7 +40,7 @@ class HFDefaultDialogFragment : DialogFragment() {
 //                putParcelable("pKey",callback)
             }
 
-            return HFDefaultDialogFragment().apply {
+            return HFCallbackDialogFragment().apply {
                 arguments = bundle
 //                callback = cb
             }
@@ -51,7 +49,13 @@ class HFDefaultDialogFragment : DialogFragment() {
 
     var callback: Callback? = null
 
-    interface Callback :Serializable{
+    var fragmentEvents: MutableLiveData<Event> = MutableLiveData()
+
+    lateinit var viewModel : HFCallbackVM
+
+    class Event(val name: String, var args: Any?=null)
+
+    interface Callback : Serializable {
         fun onPositive()
         fun onNegative()
     }
@@ -59,6 +63,8 @@ class HFDefaultDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate() called with: savedInstanceState = $savedInstanceState")
+
+        viewModel = ViewModelProvider(this).get(HFCallbackVM::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -81,35 +87,11 @@ class HFDefaultDialogFragment : DialogFragment() {
         Log.d(TAG, "onDismiss() called with: dialog = $dialog")
     }
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        Log.d(
-//            TAG,
-//            "onCreateView() called with: inflater = $inflater, container = $container, savedInstanceState = $savedInstanceState"
-//        )
-//        val view = inflater.inflate(R.layout.dialog_layout_hf, container, false)
-//        return null
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        Log.d(TAG, "onViewCreated: ")
-//    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         Log.d(TAG, "onCreateDialog() called with: savedInstanceState = $savedInstanceState")
         Log.d(TAG, "onCreateDialog() $arguments")
 
 //        callback = arguments?.getParcelable("sKey") as Callback?
-
-//        if (savedInstanceState != null) {
-//            Toast.makeText(requireContext(), "恢复回来 自动消失", Toast.LENGTH_SHORT).show()
-//            dismissAllowingStateLoss()
-//            return super.onCreateDialog(savedInstanceState)
-//        }
 
         val dialog = AlertDialog.Builder(requireContext())
             .setMessage("自定义 Message")
@@ -122,6 +104,10 @@ class HFDefaultDialogFragment : DialogFragment() {
                     Toast.LENGTH_SHORT
                 ).show()
                 callback?.onNegative()
+
+                fragmentEvents.postValue(Event("setNegativeButton", "setNegativeButton Arg 1"))
+
+                viewModel.events.postValue(Event("setNegativeButton", "viewModel Arg 2"))
             }
             .setCancelable(false)
             .setPositiveButton(
@@ -129,6 +115,9 @@ class HFDefaultDialogFragment : DialogFragment() {
             ) { dialog, which ->
                 Toast.makeText(requireContext(), "点击了确定", Toast.LENGTH_SHORT).show()
                 callback?.onPositive()
+                fragmentEvents.postValue(Event("setPositiveButton", "setPositiveButton Arg 2"))
+
+                viewModel.events.postValue(Event("setPositiveButton", "viewModel Arg 2"))
             }
             .create()
         dialog.setCancelable(false) //依赖没有用- -
