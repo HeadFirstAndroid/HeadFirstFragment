@@ -16,23 +16,21 @@ import androidx.lifecycle.ViewModelProvider
 import java.io.Serializable
 
 /**
- *
- * 尝试 Callback 沟通
- *
- * 当页面恢复的时候 callback 会为 null ===> 此路不通
+ * todo
+ * 尝试 Event 方式沟通
  *
  * Created by 程序亦非猿 on 2021/9/23.
  */
-class HFCallbackDialogFragment : DialogFragment() {
+class HFEventDialogFragment : DialogFragment() {
 
     companion object {
-        private const val TAG = "HFDefaultDialogFragment"
+        private const val TAG = "HFEventDialogFragment"
 
         fun create(
             intValue: Int,
             stringValue: String,
             cb: Callback?=null
-        ): HFCallbackDialogFragment {
+        ): HFEventDialogFragment {
 
             val bundle = Bundle().apply {
                 putString("stringKey", stringValue)
@@ -41,7 +39,7 @@ class HFCallbackDialogFragment : DialogFragment() {
 //                putParcelable("pKey",callback)
             }
 
-            return HFCallbackDialogFragment().apply {
+            return HFEventDialogFragment().apply {
                 arguments = bundle
 //                callback = cb
             }
@@ -108,7 +106,12 @@ class HFCallbackDialogFragment : DialogFragment() {
                 ).show()
                 callback?.onNegative()
 
-                fragmentEvents.postValue(Event("setNegativeButton", "setNegativeButton Arg 1"))
+                fragmentEvents.postValue(
+                    Event(
+                        "setNegativeButton",
+                        "setNegativeButton Arg 1"
+                    )
+                )
 
                 viewModel.events.postValue(Event("setNegativeButton", "viewModel Arg 2"))
             }
@@ -118,7 +121,12 @@ class HFCallbackDialogFragment : DialogFragment() {
             ) { dialog, which ->
                 Toast.makeText(requireContext(), "点击了确定", Toast.LENGTH_SHORT).show()
                 callback?.onPositive()
-                fragmentEvents.postValue(Event("setPositiveButton", "setPositiveButton Arg 2"))
+                fragmentEvents.postValue(
+                    Event(
+                        "setPositiveButton",
+                        "setPositiveButton Arg 2"
+                    )
+                )
 
                 viewModel.events.postValue(Event("setPositiveButton", "viewModel Arg 2"))
             }

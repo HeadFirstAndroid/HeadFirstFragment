@@ -8,5 +8,5 @@ import androidx.lifecycle.ViewModel
  */
 class HFCallbackVM : ViewModel() {
 
-    var events = MutableLiveData<HFCallbackDialogFragment.Event>()
+    var events = MutableLiveData<Event>()
 }
